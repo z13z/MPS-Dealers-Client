@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="MPSDealersService" targetNamespace="http://mps.azry.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://mps.azry.com" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://mps.azry.com" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://mps.azry.com">
+			<xs:element name="CurrencyRatesInfo" type="tns:currencyRatesInfo"/>
+			<xs:element name="findPaymentsResponse" type="tns:findPaymentsResponse"/>
+			<xs:element name="getClientCommissions" type="tns:getClientCommissions"/>
+			<xs:element name="getClientCommissionsResponse" type="tns:getClientCommissionsResponse"/>
+			<xs:element name="getCommissions" type="tns:getCommissions"/>
+			<xs:element name="getCommissionsResponse" type="tns:getCommissionsResponse"/>
+			<xs:element name="getInfoResponse" type="tns:getInfoResponse"/>
+			<xs:element name="getPaymentInfo" type="tns:getPaymentInfo"/>
+			<xs:element name="getPaymentInfoResponse" type="tns:getPaymentInfoResponse"/>
+			<xs:element name="getPaymentsInfoResponse" type="tns:getPaymentsInfoResponse"/>
+			<xs:element name="getServices" type="tns:getServices"/>
+			<xs:element name="getServicesResponse" type="tns:getServicesResponse"/>
+			<xs:element name="payResponse" type="tns:payResponse"/>
+			<xs:complexType name="getCommissions">
+				<xs:sequence/>
+			</xs:complexType>
+			<xs:complexType name="getCommissionsResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:GetCommissionsResult"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="GetCommissionsResult">
+				<xs:sequence>
+					<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Commission" type="tns:Commission"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Commission">
+				<xs:sequence>
+					<xs:element form="qualified" minOccurs="0" name="ServiceId" type="xs:long"/>
+					<xs:element form="qualified" minOccurs="0" name="PointOfSaleId" type="xs:long"/>
+					<xs:element form="qualified" minOccurs="0" name="Currency" type="xs:string"/>
+					<xs:element form="qualified" minOccurs="0" name="MinAmount" type="xs:decimal"/>
+					<xs:element form="qualified" minOccurs="0" name="MaxAmount" type="xs:decimal"/>
+					<xs:element form="qualified" minOccurs="0" name="FixedRate" type="xs:decimal"/>
+					<xs:element form="qualified" minOccurs="0" name="PercentRate" type="xs:decimal"/>
+					<xs:element form="qualified" minOccurs="0" name="MinCommission" type="xs:decimal"/>
+					<xs:element form="qualified" minOccurs="0" name="MaxCommission" type="xs:decimal"/>
+					<xs:element form="qualified" minOccurs="0" name="ActivationTime" type="xs:dateTime"/>
+					<xs:element form="qualified" minOccurs="0" name="Type" type="tns:commissionType"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getClientCommissions">
+				<xs:sequence/>
+			</xs:complexType>
+			<xs:complexType name="getClientCommissionsResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:GetClientCommissionsResult"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="GetClientCommissionsResult">
+				<xs:sequence>
+					<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Commission" type="tns:Commission"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="GetInfoRequest">
+				<xs:sequence>
+					<xs:element form="qualified" name="ServiceId" type="xs:long"/>
+					<xs:element form="qualified" name="Params" type="tns:adaptedMap"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="adaptedMap">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="entry" nillable="true" type="tns:entry"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="entry">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="key" type="xs:string"/>
+					<xs:element minOccurs="0" name="value" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getInfoResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:GetInfoResult"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="GetInfoResult">
+				<xs:sequence>
+					<xs:element form="qualified" minOccurs="0" name="Status" type="tns:getInfoStatus"/>
+					<xs:element form="qualified" minOccurs="0" name="StatusMessage" type="xs:string"/>
+					<xs:element form="qualified" minOccurs="0" name="Debt" type="tns:Amount"/>
+					<xs:element form="qualified" minOccurs="0" name="Info" type="xs:string"/>
+					<xs:element form="qualified" minOccurs="0" name="InfoParams" type="tns:adaptedMap"/>
+					<xs:element minOccurs="0" ref="tns:CurrencyRatesInfo"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Amount">
+				<xs:sequence>
+					<xs:element form="qualified" name="Amount" type="xs:decimal"/>
+					<xs:element form="qualified" name="Currency" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="currencyRatesInfo">
+				<xs:sequence>
+					<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="CurrencyRates" type="tns:CurrencyRate"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="CurrencyRate">
+				<xs:sequence>
+					<xs:element form="qualified" name="SrcCurrency" type="xs:string"/>
+					<xs:element form="qualified" name="DstCurrency" type="xs:string"/>
+					<xs:element form="qualified" name="Rate" type="xs:decimal"/>
+					<xs:element form="qualified" name="Reverse" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="FindPaymentsRequest">
+				<xs:sequence>
+					<xs:element form="qualified" minOccurs="0" name="StartPaymentDate" type="xs:dateTime"/>
+					<xs:element form="qualified" minOccurs="0" name="EndPaymentDate" type="xs:dateTime"/>
+					<xs:element minOccurs="0" name="fromArchive" type="xs:boolean"/>
+					<xs:element form="qualified" minOccurs="0" name="Offset" type="xs:int"/>
+					<xs:element form="qualified" minOccurs="0" name="Limit" type="xs:int"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="findPaymentsResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:FindPaymentsResult"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="FindPaymentsResult">
+				<xs:sequence>
+					<xs:element form="qualified" name="Offset" type="xs:int"/>
+					<xs:element form="qualified" name="TotalLength" type="xs:int"/>
+					<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Payment" type="tns:Payment"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Payment">
+				<xs:sequence>
+					<xs:element form="qualified" name="Id" type="xs:long"/>
+					<xs:element form="qualified" minOccurs="0" name="ChannelName" type="xs:string"/>
+					<xs:element form="qualified" minOccurs="0" name="ServiceId" type="xs:long"/>
+					<xs:element form="qualified" minOccurs="0" name="CustomerFiId" type="xs:string"/>
+					<xs:element form="qualified" minOccurs="0" name="Amount" type="tns:Amount"/>
+					<xs:element form="qualified" minOccurs="0" name="ClientCommission" type="tns:Amount"/>
+					<xs:element form="qualified" minOccurs="0" name="PaymentParams" type="tns:adaptedMap"/>
+					<xs:element form="qualified" minOccurs="0" name="CreateDate" type="xs:dateTime"/>
+					<xs:element form="qualified" minOccurs="0" name="Status" type="tns:paymentStatus"/>
+					<xs:element form="qualified" minOccurs="0" name="StatusMessage" type="xs:string"/>
+					<xs:element form="qualified" minOccurs="0" name="StatusChangeTime" type="xs:dateTime"/>
+					<xs:element form="qualified" minOccurs="0" name="ClearingOrderStatus" type="tns:clearingOrderStatus"/>
+					<xs:element form="qualified" minOccurs="0" name="ChannelId" type="xs:long"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getPaymentInfo">
+				<xs:sequence>
+					<xs:element form="qualified" name="PaymentId" type="xs:long"/>
+					<xs:element form="qualified" minOccurs="0" name="FromArchive" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getPaymentInfoResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:PaymentInfo"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="PaymentInfo">
+				<xs:sequence>
+					<xs:element form="qualified" name="Id" type="xs:long"/>
+					<xs:element form="qualified" minOccurs="0" name="AgentPaymentId" type="xs:string"/>
+					<xs:element form="qualified" minOccurs="0" name="Status" type="tns:paymentInfoStatus"/>
+					<xs:element form="qualified" minOccurs="0" name="InternalStatus" type="xs:string"/>
+					<xs:element form="qualified" minOccurs="0" name="StatusMessage" type="xs:string"/>
+					<xs:element form="qualified" minOccurs="0" name="StatusChangeTime" type="xs:dateTime"/>
+					<xs:element form="qualified" minOccurs="0" name="SpChargedCommission" type="tns:Amount"/>
+					<xs:element form="qualified" minOccurs="0" name="SpPaymentId" type="xs:string"/>
+					<xs:element form="qualified" minOccurs="0" name="SpPaymentTime" type="xs:dateTime"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="GetPaymentsInfoRequest">
+				<xs:sequence>
+					<xs:element form="qualified" name="LastSyncTime" type="xs:dateTime"/>
+					<xs:element form="qualified" minOccurs="0" name="Hash" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getPaymentsInfoResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:GetPaymentsInfoResult"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="GetPaymentsInfoResult">
+				<xs:sequence>
+					<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="PaymentsInfo" type="tns:PaymentInfo"/>
+					<xs:element form="qualified" minOccurs="0" name="Hash" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getServices">
+				<xs:sequence/>
+			</xs:complexType>
+			<xs:complexType name="getServicesResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:GetServicesResult"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="GetServicesResult">
+				<xs:sequence>
+					<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Service" type="tns:Service"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Service">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="serviceId" type="xs:long"/>
+					<xs:element minOccurs="0" name="name" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="PayRequest">
+				<xs:sequence>
+					<xs:element form="qualified" minOccurs="0" name="PointOfSaleId" type="xs:long"/>
+					<xs:element form="qualified" name="ServiceId" type="xs:long"/>
+					<xs:element form="qualified" name="AgentPaymentId" type="xs:string"/>
+					<xs:element form="qualified" minOccurs="0" name="CustomerFiId" type="xs:string"/>
+					<xs:element form="qualified" minOccurs="0" name="SourceAccountNumber" type="xs:string"/>
+					<xs:element form="qualified" name="PaymentParams" type="tns:adaptedMap"/>
+					<xs:element form="qualified" name="PaymentAmountsInfo" type="tns:PaymentAmountsInfo"/>
+					<xs:element minOccurs="0" ref="tns:CurrencyRatesInfo"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="PaymentAmountsInfo">
+				<xs:sequence>
+					<xs:element form="qualified" name="Amount" type="tns:Amount"/>
+					<xs:element form="qualified" name="ClientCommission" type="tns:Amount"/>
+					<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="AmountsPerCurrency" type="tns:Amount"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="payResponse">
+				<xs:sequence/>
+			</xs:complexType>
+			<xs:simpleType name="commissionType">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="CLIENT"/>
+					<xs:enumeration value="SERVICE"/>
+					<xs:enumeration value="OWN_CLIENT"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name="getInfoStatus">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="SUCCESS"/>
+					<xs:enumeration value="REJECT"/>
+					<xs:enumeration value="FAILED"/>
+					<xs:enumeration value="CONNECTIVITY_FAILURE"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name="paymentStatus">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="PRE_CREATED"/>
+					<xs:enumeration value="CREATED"/>
+					<xs:enumeration value="COLLECTED"/>
+					<xs:enumeration value="COLLECT_REJECTED"/>
+					<xs:enumeration value="PENDING"/>
+					<xs:enumeration value="PERFORMED"/>
+					<xs:enumeration value="PERFORMED_MANUALLY"/>
+					<xs:enumeration value="PERFORMING_IN_PROGRESS"/>
+					<xs:enumeration value="FAILED"/>
+					<xs:enumeration value="REJECTED"/>
+					<xs:enumeration value="DELETED"/>
+					<xs:enumeration value="CANCEL_REQUESTED"/>
+					<xs:enumeration value="CANCELED"/>
+					<xs:enumeration value="CANCELED_MANUALLY"/>
+					<xs:enumeration value="CANCEL_PENDING"/>
+					<xs:enumeration value="CANCELING_IN_PROGRESS"/>
+					<xs:enumeration value="CANCEL_FAILED"/>
+					<xs:enumeration value="MANUAL_CANCEL_REQUIRED"/>
+					<xs:enumeration value="REFUND_REQUESTED"/>
+					<xs:enumeration value="REFUNDED"/>
+					<xs:enumeration value="REFUND_REJECTED"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name="clearingOrderStatus">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="CREATED"/>
+					<xs:enumeration value="PROCESSED"/>
+					<xs:enumeration value="REJECTED"/>
+					<xs:enumeration value="REGISTERED"/>
+					<xs:enumeration value="REGISTER_REJECTED"/>
+					<xs:enumeration value="RECREATED"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name="paymentInfoStatus">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="NOT_PROCESSED"/>
+					<xs:enumeration value="TRANSACTIONS_PROCESSED"/>
+					<xs:enumeration value="TRANSACTIONS_REJECTED"/>
+					<xs:enumeration value="SP_PAY_IN_PROGRESS"/>
+					<xs:enumeration value="SP_PAY_PROCESSED"/>
+					<xs:enumeration value="SP_PAY_REJECTED"/>
+					<xs:enumeration value="DELETED"/>
+					<xs:enumeration value="SP_CANCELED"/>
+					<xs:enumeration value="SP_CANCEL_IN_PROGRESS"/>
+					<xs:enumeration value="SP_CANCEL_REJECTED"/>
+					<xs:enumeration value="TRANSACTIONS_REFUND_IN_PROGRESS"/>
+					<xs:enumeration value="TRANSACTIONS_REFUNDED"/>
+					<xs:enumeration value="TRANSACTIONS_REFUND_REJECTED"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:element name="MPSServiceException" type="tns:MPSServiceException"/>
+			<xs:complexType name="MPSServiceException">
+				<xs:sequence>
+					<xs:element name="code" nillable="true" type="xs:long"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="MPSServiceNotAvailableException" type="tns:MPSServiceNotAvailableException"/>
+			<xs:complexType name="MPSServiceNotAvailableException">
+				<xs:sequence>
+					<xs:element name="code" nillable="true" type="xs:long"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="getInfo" nillable="true" type="tns:GetInfoRequest"/>
+			<xs:element name="MPSException" type="tns:MPSException"/>
+			<xs:complexType name="MPSException">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="params" type="xs:string"/>
+					<xs:element name="code" nillable="true" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="findPayments" nillable="true" type="tns:FindPaymentsRequest"/>
+			<xs:element name="getPaymentsInfo" nillable="true" type="tns:GetPaymentsInfoRequest"/>
+			<xs:element name="pay" nillable="true" type="tns:PayRequest"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getCommissions">
+		<wsdl:part name="parameters" element="tns:getCommissions">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getClientCommissions">
+		<wsdl:part name="parameters" element="tns:getClientCommissions">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="MPSException">
+		<wsdl:part name="MPSException" element="tns:MPSException">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getClientCommissionsResponse">
+		<wsdl:part name="parameters" element="tns:getClientCommissionsResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getInfo">
+		<wsdl:part name="parameters" element="tns:getInfo">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="findPayments">
+		<wsdl:part name="parameters" element="tns:findPayments">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="payResponse">
+		<wsdl:part name="parameters" element="tns:payResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getPaymentInfoResponse">
+		<wsdl:part name="parameters" element="tns:getPaymentInfoResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getPaymentsInfo">
+		<wsdl:part name="parameters" element="tns:getPaymentsInfo">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="findPaymentsResponse">
+		<wsdl:part name="parameters" element="tns:findPaymentsResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="pay">
+		<wsdl:part name="parameters" element="tns:pay">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getCommissionsResponse">
+		<wsdl:part name="parameters" element="tns:getCommissionsResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="MPSServiceNotAvailableException">
+		<wsdl:part name="MPSServiceNotAvailableException" element="tns:MPSServiceNotAvailableException">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getInfoResponse">
+		<wsdl:part name="parameters" element="tns:getInfoResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getPaymentInfo">
+		<wsdl:part name="parameters" element="tns:getPaymentInfo">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getPaymentsInfoResponse">
+		<wsdl:part name="parameters" element="tns:getPaymentsInfoResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="MPSServiceException">
+		<wsdl:part name="MPSServiceException" element="tns:MPSServiceException">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getServicesResponse">
+		<wsdl:part name="parameters" element="tns:getServicesResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getServices">
+		<wsdl:part name="parameters" element="tns:getServices">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="MPSTBCDealersService">
+		<wsdl:operation name="getCommissions">
+			<wsdl:input name="getCommissions" message="tns:getCommissions">
+			</wsdl:input>
+			<wsdl:output name="getCommissionsResponse" message="tns:getCommissionsResponse">
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException" message="tns:MPSServiceNotAvailableException">
+			</wsdl:fault>
+			<wsdl:fault name="MPSServiceException" message="tns:MPSServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getClientCommissions">
+			<wsdl:input name="getClientCommissions" message="tns:getClientCommissions">
+			</wsdl:input>
+			<wsdl:output name="getClientCommissionsResponse" message="tns:getClientCommissionsResponse">
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException" message="tns:MPSServiceNotAvailableException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getInfo">
+			<wsdl:input name="getInfo" message="tns:getInfo">
+			</wsdl:input>
+			<wsdl:output name="getInfoResponse" message="tns:getInfoResponse">
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException" message="tns:MPSServiceNotAvailableException">
+			</wsdl:fault>
+			<wsdl:fault name="MPSException" message="tns:MPSException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="findPayments">
+			<wsdl:input name="findPayments" message="tns:findPayments">
+			</wsdl:input>
+			<wsdl:output name="findPaymentsResponse" message="tns:findPaymentsResponse">
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException" message="tns:MPSServiceNotAvailableException">
+			</wsdl:fault>
+			<wsdl:fault name="MPSServiceException" message="tns:MPSServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getPaymentInfo">
+			<wsdl:input name="getPaymentInfo" message="tns:getPaymentInfo">
+			</wsdl:input>
+			<wsdl:output name="getPaymentInfoResponse" message="tns:getPaymentInfoResponse">
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException" message="tns:MPSServiceNotAvailableException">
+			</wsdl:fault>
+			<wsdl:fault name="MPSServiceException" message="tns:MPSServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getPaymentsInfo">
+			<wsdl:input name="getPaymentsInfo" message="tns:getPaymentsInfo">
+			</wsdl:input>
+			<wsdl:output name="getPaymentsInfoResponse" message="tns:getPaymentsInfoResponse">
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException" message="tns:MPSServiceNotAvailableException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getServices">
+			<wsdl:input name="getServices" message="tns:getServices">
+			</wsdl:input>
+			<wsdl:output name="getServicesResponse" message="tns:getServicesResponse">
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException" message="tns:MPSServiceNotAvailableException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="pay">
+			<wsdl:input name="pay" message="tns:pay">
+			</wsdl:input>
+			<wsdl:output name="payResponse" message="tns:payResponse">
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException" message="tns:MPSServiceNotAvailableException">
+			</wsdl:fault>
+			<wsdl:fault name="MPSServiceException" message="tns:MPSServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="MPSDealersServiceSoapBinding" type="tns:MPSTBCDealersService">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getClientCommissions">
+			<soap:operation soapAction="http://mps.azry.com/getClientCommissions" style="document"/>
+			<wsdl:input name="getClientCommissions">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getClientCommissionsResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException">
+				<soap:fault name="MPSServiceNotAvailableException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getCommissions">
+			<soap:operation soapAction="http://mps.azry.com/getCommissions" style="document"/>
+			<wsdl:input name="getCommissions">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getCommissionsResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException">
+				<soap:fault name="MPSServiceNotAvailableException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MPSServiceException">
+				<soap:fault name="MPSServiceException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getInfo">
+			<soap:operation soapAction="http://mps.azry.com/getInfo" style="document"/>
+			<wsdl:input name="getInfo">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getInfoResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException">
+				<soap:fault name="MPSServiceNotAvailableException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MPSException">
+				<soap:fault name="MPSException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="findPayments">
+			<soap:operation soapAction="http://mps.azry.com/findPayments" style="document"/>
+			<wsdl:input name="findPayments">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="findPaymentsResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException">
+				<soap:fault name="MPSServiceNotAvailableException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MPSServiceException">
+				<soap:fault name="MPSServiceException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getPaymentInfo">
+			<soap:operation soapAction="http://mps.azry.com/getPaymentInfo" style="document"/>
+			<wsdl:input name="getPaymentInfo">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getPaymentInfoResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException">
+				<soap:fault name="MPSServiceNotAvailableException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MPSServiceException">
+				<soap:fault name="MPSServiceException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getPaymentsInfo">
+			<soap:operation soapAction="http://mps.azry.com/getPaymentsInfo" style="document"/>
+			<wsdl:input name="getPaymentsInfo">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getPaymentsInfoResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException">
+				<soap:fault name="MPSServiceNotAvailableException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getServices">
+			<soap:operation soapAction="http://mps.azry.com/getServices" style="document"/>
+			<wsdl:input name="getServices">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getServicesResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException">
+				<soap:fault name="MPSServiceNotAvailableException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="pay">
+			<soap:operation soapAction="http://mps.azry.com/pay" style="document"/>
+			<wsdl:input name="pay">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="payResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MPSServiceNotAvailableException">
+				<soap:fault name="MPSServiceNotAvailableException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MPSServiceException">
+				<soap:fault name="MPSServiceException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="MPSDealersService">
+		<wsdl:port name="MPSDealersServicePort" binding="tns:MPSDealersServiceSoapBinding">
+			<soap:address location="http://localhost:9090/MPSDealersServicePort"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
