@@ -1,6 +1,6 @@
 import com.azry.mps.dealers.service.MPSDealersService;
+import com.azry.mps.dealers.service.MPSDealersService_Service;
 import com.azry.mps.dealers.service.MPSServiceNotAvailableException_Exception;
-import com.azry.mps.dealers.service.MPSTBCDealersService;
 import helpers.CXFLoggingInterceptorHelper;
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
 import org.apache.cxf.endpoint.Client;
@@ -42,7 +42,7 @@ public class SimpleClient {
 		if (argv.length == 5) {
 			SimpleClient instance = new SimpleClient(argv[0], argv[1], argv[2], argv[3], argv[4]);
 			try {
-				MPSTBCDealersService dealersService = instance.getDealersService();
+				MPSDealersService dealersService = instance.getDealersService();
 				dealersService.getServices();
 				System.out.println("get services called successfully");
 			} catch (MPSServiceNotAvailableException_Exception e) {
@@ -66,8 +66,8 @@ public class SimpleClient {
 		this.serviceUrl = serviceUrl;
 	}
 
-	private MPSTBCDealersService getDealersService(){
-		MPSTBCDealersService dealersService = new MPSDealersService().getMPSDealersServicePort();
+	private MPSDealersService getDealersService(){
+		MPSDealersService dealersService = new MPSDealersService_Service().getMPSDealersServicePort();
 
 		Map<String, Object> requestContext = ((BindingProvider) dealersService).getRequestContext();
 		requestContext.put("set-jaxb-validation-event-handler", "false");
