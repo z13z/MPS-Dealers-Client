@@ -9,7 +9,6 @@
 			<xs:element name="getCommissions" type="tns:getCommissions"/>
 			<xs:element name="getCommissionsResponse" type="tns:getCommissionsResponse"/>
 			<xs:element name="getInfoResponse" type="tns:getInfoResponse"/>
-			<xs:element name="getPaymentInfo" type="tns:getPaymentInfo"/>
 			<xs:element name="getPaymentInfoResponse" type="tns:getPaymentInfoResponse"/>
 			<xs:element name="getPaymentsInfoResponse" type="tns:getPaymentsInfoResponse"/>
 			<xs:element name="getServices" type="tns:getServices"/>
@@ -111,7 +110,7 @@
 					<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Commission" type="tns:Commission"/>
 				</xs:sequence>
 			</xs:complexType>
-			<xs:complexType name="getPaymentInfo">
+			<xs:complexType name="GetPaymentInfoRequest">
 				<xs:sequence>
 					<xs:element form="qualified" name="PaymentId" type="xs:long"/>
 					<xs:element form="qualified" minOccurs="0" name="FromArchive" type="xs:boolean"/>
@@ -307,6 +306,7 @@
 					<xs:element name="code" nillable="true" type="xs:long"/>
 				</xs:sequence>
 			</xs:complexType>
+			<xs:element name="getPaymentInfo" nillable="true" type="tns:GetPaymentInfoRequest"/>
 			<xs:element name="findPayments" nillable="true" type="tns:FindPaymentsRequest"/>
 			<xs:element name="pay" nillable="true" type="tns:PayRequest"/>
 			<xs:element name="getInfo" nillable="true" type="tns:GetInfoRequest"/>
