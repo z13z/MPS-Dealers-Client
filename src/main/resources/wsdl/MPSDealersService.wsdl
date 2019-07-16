@@ -112,7 +112,7 @@
 			</xs:complexType>
 			<xs:complexType name="GetPaymentInfoRequest">
 				<xs:sequence>
-					<xs:element form="qualified" name="PaymentId" type="xs:long"/>
+					<xs:element form="qualified" name="AgentPaymentId" type="xs:string"/>
 					<xs:element form="qualified" minOccurs="0" name="FromArchive" type="xs:boolean"/>
 				</xs:sequence>
 			</xs:complexType>
