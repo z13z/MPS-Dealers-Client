@@ -28,6 +28,8 @@ public class SimpleClient {
 
 	private static final String TLS_VERSION = "TLSv1.2";
 
+	private static final String KEYSTORE_TYPE = "PKCS12";
+
 	private String keystorePath;
 
 	private String serviceUrl;
@@ -96,11 +98,11 @@ public class SimpleClient {
 	private void configureTLSClientParameters(TLSClientParameters tlsClientParameters) {
 		try (InputStream keyInput = new FileInputStream(keystorePath)) {
 			KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-			KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+			KeyStore keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
 			keyStore.load(keyInput, keystorePassword.toCharArray());
 			keyManagerFactory.init(keyStore, keystorePassword.toCharArray());
 
-			KeyStore ksCACert = KeyStore.getInstance(KeyStore.getDefaultType());
+			KeyStore ksCACert = KeyStore.getInstance(KEYSTORE_TYPE);
 			ksCACert.load(new FileInputStream(truststorePath), truststorePassword.toCharArray());
 			TrustManagerFactory tmf = TrustManagerFactory.getInstance("X509");
 			tmf.init(ksCACert);
